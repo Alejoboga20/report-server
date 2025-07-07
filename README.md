@@ -24,3 +24,35 @@
 ## Description
 
 This project was created to learn PDF generation with NestJS. It is a simple application that generates a PDF report based on the provided data.
+
+## Installation
+
+```bash
+$ npm install
+```
+
+## Running the app
+
+1. Start Database
+
+```bash
+$ docker compose up -d
+```
+
+2. Fill .env file
+
+```bash
+$ cp .env.example .env
+```
+
+3. Generate Prisma Client
+
+```bash
+$ npx prisma generate
+```
+
+3. Start the application
+
+```bash
+$ npm run start:dev
+```
