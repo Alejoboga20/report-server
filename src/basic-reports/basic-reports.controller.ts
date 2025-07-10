@@ -18,4 +18,17 @@ export class BasicReportsController {
     pdfDoc.pipe(response);
     pdfDoc.end();
   }
+
+  @Get('employment-letter')
+  employmentLetter(@Res() response: Response) {
+    const pdfDoc = this.basicReportsService.employmentLetter();
+    response.setHeader('Content-Type', 'application/pdf');
+
+    pdfDoc.info.Title = 'Employment Letter';
+    pdfDoc.info.Author = 'Report Server';
+    pdfDoc.info.Subject = 'Employment Letter Example';
+
+    pdfDoc.pipe(response);
+    pdfDoc.end();
+  }
 }
