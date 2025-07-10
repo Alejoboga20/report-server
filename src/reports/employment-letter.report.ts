@@ -1,22 +1,52 @@
-import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+import type {
+  Content,
+  StyleDictionary,
+  TDocumentDefinitions,
+} from 'pdfmake/interfaces';
 
 const styles: StyleDictionary = {
   header: {
     fontSize: 22,
     bold: true,
     alignment: 'center',
-    margin: [0, 0, 0, 20],
+    margin: [0, 60, 0, 20],
   },
   body: {
     fontSize: 12,
     alignment: 'justify',
     margin: [0, 10, 0, 10],
   },
+  footer: {
+    fontSize: 10,
+    alignment: 'center',
+    italics: true,
+    margin: [0, 20, 0, 0],
+    color: 'gray',
+  },
+};
+
+const logo: Content = {
+  image: 'assets/tucan-code-logo.png',
+  width: 100,
+  height: 100,
+  alignment: 'center',
+  margin: [0, 0, 0, 20],
 };
 
 export const getEmploymentLetter = (): TDocumentDefinitions => {
   const docDefinition: TDocumentDefinitions = {
     styles,
+    pageMargins: [40, 60, 40, 60],
+    header: {
+      columns: [
+        logo,
+        {
+          text: `${new Date().toLocaleDateString('en-US')}`,
+          alignment: 'right',
+          margin: [0, 20, 20, 0],
+        },
+      ],
+    },
     content: [
       {
         text: 'Employment Letter',
@@ -36,6 +66,10 @@ export const getEmploymentLetter = (): TDocumentDefinitions => {
         margin: [0, 20, 0, 0],
       },
     ],
+    footer: {
+      text: 'This document is generated electronically and does not require a signature.',
+      style: 'footer',
+    },
   };
 
   return docDefinition;
