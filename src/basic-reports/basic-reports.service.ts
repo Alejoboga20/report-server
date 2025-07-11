@@ -36,7 +36,7 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
   }
 
   employmentLetter() {
-    const employmentLetterReport = getEmploymentLetter();
+    const employmentLetterReport = getEmploymentLetter({});
 
     const doc = this.printerService.createPdf(employmentLetterReport);
 
@@ -52,9 +52,16 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
       throw new NotFoundException(`Employee with ID ${employeeId} not found`);
     }
 
-    console.log({ employee });
-
-    const employmentLetterReport = getEmploymentLetter();
+    const employmentLetterReport = getEmploymentLetter({
+      employerName: 'Alejo Boga',
+      employerPosition: 'Software Engineer Manager',
+      employerCompany: 'Tucan Code',
+      employeeName: employee.name,
+      employeePosition: employee.position,
+      employeeStartDate: employee.start_date,
+      employeeHours: employee.hours_per_day,
+      employeeWorkSchedule: employee.work_schedule,
+    });
     const doc = this.printerService.createPdf(employmentLetterReport);
 
     return doc;

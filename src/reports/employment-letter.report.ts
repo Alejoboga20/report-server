@@ -1,6 +1,7 @@
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import { headerSection } from './sections/header.section';
+import { DateFormatter } from 'src/helpers/date-formater';
 
 const styles: StyleDictionary = {
   header: {
@@ -23,7 +24,32 @@ const styles: StyleDictionary = {
   },
 };
 
-export const getEmploymentLetter = (): TDocumentDefinitions => {
+interface ReportValues {
+  employerName?: string;
+  employerPosition?: string;
+  employerCompany?: string;
+
+  employeeName?: string;
+  employeePosition?: string;
+  employeeStartDate?: Date;
+  employeeHours?: number;
+  employeeWorkSchedule?: string;
+}
+
+export const getEmploymentLetter = (
+  reportValues: ReportValues,
+): TDocumentDefinitions => {
+  const {
+    employerName = '[Employer Name]',
+    employerPosition = '[Employer Position]',
+    employerCompany = '[Company Name]',
+    employeeName = '[Employee Name]',
+    employeePosition = '[Employee Position]',
+    employeeStartDate = new Date(),
+    employeeHours,
+    employeeWorkSchedule = '[Work Schedule]',
+  } = reportValues;
+
   const docDefinition: TDocumentDefinitions = {
     styles,
     pageMargins: [40, 60, 40, 60],
@@ -35,15 +61,15 @@ export const getEmploymentLetter = (): TDocumentDefinitions => {
       },
       {
         text: `
-        I, [Employer Name], in my capacity as [Employer Position] of [Company Name], hereby certify that [Employee Name] has been employed in our company since [Employee Start Date].\n\n
-        During their employment, Mr./Ms. [Employee Name] has performed the position of [Employee Position], demonstrating responsibility, commitment, and professional skills in their duties.\n\n
-        The working schedule of Mr./Ms. [Employee Name] is [Number of Hours] hours per week, with a schedule of [Work Schedule], complying with the policies and procedures established by the company.\n\n
+        I, ${employerName}, in my capacity as ${employerPosition} of ${employerCompany}, hereby certify that ${employeeName} has been employed in our company since ${DateFormatter.getDDMMYYYY(employeeStartDate)}.\n\n
+        During their employment, Mr./Ms. ${employeeName} has performed the position of ${employeePosition}, demonstrating responsibility, commitment, and professional skills in their duties.\n\n
+        The working schedule of Mr./Ms. ${employeeName} is ${employeeHours} hours per week, with a schedule of ${employeeWorkSchedule}, complying with the policies and procedures established by the company.\n\n
         This certification is issued at the request of the interested party for the purposes they deem appropriate.
         `,
         style: 'body',
       },
       {
-        text: `Regards,\n\n[Employer Name]\n[Employer Position]\n[Company Name]\n[Date]`,
+        text: `Regards,\n\n${employerName}\n${employerPosition}\n${employerCompany}\n${DateFormatter.getDDMMYYYY(new Date())}`,
         margin: [0, 20, 0, 0],
       },
     ],
