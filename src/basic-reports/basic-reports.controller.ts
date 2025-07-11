@@ -7,8 +7,8 @@ export class BasicReportsController {
   constructor(private readonly basicReportsService: BasicReportsService) {}
 
   @Get('countries')
-  getCountriesReport(@Res() response: Response) {
-    const pdfDoc = this.basicReportsService.countriesReport();
+  async getCountriesReport(@Res() response: Response) {
+    const pdfDoc = await this.basicReportsService.countriesReport();
     response.setHeader('Content-Type', 'application/pdf');
 
     pdfDoc.info.Title = 'Hello World Report';
