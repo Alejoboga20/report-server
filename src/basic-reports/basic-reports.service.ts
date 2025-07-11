@@ -1,4 +1,9 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  OnModuleInit,
+} from '@nestjs/common';
 
 import { PrismaClient } from 'generated/prisma';
 import { PrinterService } from '../printer/printer.service';
@@ -33,6 +38,23 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
   employmentLetter() {
     const employmentLetterReport = getEmploymentLetter();
 
+    const doc = this.printerService.createPdf(employmentLetterReport);
+
+    return doc;
+  }
+
+  async employmentLetterById(employeeId: number) {
+    const employee = await this.employees.findFirst({
+      where: { id: employeeId },
+    });
+
+    if (!employee) {
+      throw new NotFoundException(`Employee with ID ${employeeId} not found`);
+    }
+
+    console.log({ employee });
+
+    const employmentLetterReport = getEmploymentLetter();
     const doc = this.printerService.createPdf(employmentLetterReport);
 
     return doc;
