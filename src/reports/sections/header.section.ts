@@ -9,6 +9,8 @@ const logo: Content = {
   margin: [0, 0, 0, 20],
 };
 
+const currentDate = `${DateFormatter.getDDMMYYYY(new Date())}`;
+
 interface HeaderOptions {
   title?: string;
   subtitle?: string;
@@ -19,17 +21,31 @@ interface HeaderOptions {
 }
 
 export const headerSection = (options: HeaderOptions): Content => {
-  const { showLogo = false, showDate = false, title } = options;
+  const {
+    showLogo = false,
+    showDate = false,
+    title = '',
+    subtitle = '',
+  } = options;
+
   const headerLogo: Content = showLogo ? logo : '';
   const headerDate: Content = showDate
     ? {
-        text: `${DateFormatter.getDDMMYYYY(new Date())}`,
+        text: currentDate,
         alignment: 'right',
-        margin: [0, 20, 20, 0],
+        margin: [20, 20],
       }
     : '';
+
   const headerTitle: Content = title
-    ? { text: title, style: { bold: true } }
+    ? {
+        stack: [
+          title ? { text: title, bold: true, fontSize: 18 } : '',
+          subtitle ? { text: subtitle, fontSize: 14 } : '',
+        ],
+        alignment: 'center',
+        margin: [0, 20, 0, 0],
+      }
     : '';
 
   return {
