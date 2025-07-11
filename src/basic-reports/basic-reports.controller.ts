@@ -6,6 +6,19 @@ import { Response } from 'express';
 export class BasicReportsController {
   constructor(private readonly basicReportsService: BasicReportsService) {}
 
+  @Get('countries')
+  getCountriesReport(@Res() response: Response) {
+    const pdfDoc = this.basicReportsService.countriesReport();
+    response.setHeader('Content-Type', 'application/pdf');
+
+    pdfDoc.info.Title = 'Hello World Report';
+    pdfDoc.info.Author = 'Report Server';
+    pdfDoc.info.Subject = 'Basic Report Example';
+
+    pdfDoc.pipe(response);
+    pdfDoc.end();
+  }
+
   @Get()
   hello(@Res() response: Response) {
     const pdfDoc = this.basicReportsService.helloWorld();

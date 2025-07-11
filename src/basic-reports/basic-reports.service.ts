@@ -9,6 +9,7 @@ import { PrismaClient } from 'generated/prisma';
 import { PrinterService } from '../printer/printer.service';
 import { getHelloWorldReport } from 'src/reports/hello-world.report';
 import { getEmploymentLetter } from 'src/reports/employment-letter.report';
+import { generateCountriesReport } from 'src/reports/countries.report';
 
 @Injectable()
 export class BasicReportsService extends PrismaClient implements OnModuleInit {
@@ -31,6 +32,14 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
     const helloWorldReport = getHelloWorldReport({ name: 'Test' });
 
     const doc = this.printerService.createPdf(helloWorldReport);
+
+    return doc;
+  }
+
+  countriesReport() {
+    const copuntriesReport = generateCountriesReport();
+
+    const doc = this.printerService.createPdf(copuntriesReport);
 
     return doc;
   }
