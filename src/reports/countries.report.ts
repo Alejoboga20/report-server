@@ -1,6 +1,7 @@
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { headerSection } from './sections/header.section';
 import { countries as Country } from 'generated/prisma';
+import { footerSection } from './sections/footer.section';
 
 interface ReportOptions {
   title?: string;
@@ -25,6 +26,7 @@ export const generateCountriesReport = (
       showDate: true,
       showLogo: true,
     }),
+    footer: footerSection,
     pageMargins: [40, 100, 40, 60],
     content: [
       {
