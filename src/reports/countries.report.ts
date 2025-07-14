@@ -45,6 +45,32 @@ export const generateCountriesReport = (
               country.continent ?? '',
               country.local_name ?? '',
             ]),
+
+            ['', '', '', '', 'Total', `${countries.length}`],
+          ],
+        },
+      },
+      {
+        text: 'Total',
+        style: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 40, 0, 0],
+        },
+      },
+      {
+        layout: 'noBorders',
+        table: {
+          headerRows: 1,
+          body: [
+            [
+              {
+                text: 'Total number of countries: ' + countries.length,
+                alignment: 'center',
+                fontSize: 10,
+                margin: [0, 20, 0, 0],
+              },
+            ],
           ],
         },
       },
