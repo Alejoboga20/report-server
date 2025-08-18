@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrinterService } from 'src/printer/printer.service';
+import { orderByIdReport } from 'src/reports/order-by-id.report';
 
 @Injectable()
 export class StoreReportsService {
@@ -10,9 +11,10 @@ export class StoreReportsService {
   }
 
   getByOrderIdReport(orderId: number) {
-    const report = this.printerService.createPdf({
-      content: [{ text: `Report for Order ID: ${orderId}`, style: 'header' }],
-    });
+    console.log({ orderId });
+    const docDefinition = orderByIdReport();
+
+    const report = this.printerService.createPdf(docDefinition);
 
     return report;
   }
